@@ -8,7 +8,8 @@ import util = require("./Util");
 export interface IRestResponse<T> {
     statusCode: number,
     result: T | null,
-    headers: Object
+    headers: Object,
+    contents: string | null
 }
 
 export interface IRequestOptions {
@@ -202,7 +203,8 @@ export class RestClient {
             const response: IRestResponse<T> = {
                 statusCode: statusCode,
                 result: null,
-                headers: {}
+                headers: {},
+                contents: ""
             };
 
             // not found leads to null obj returned
@@ -230,6 +232,7 @@ export class RestClient {
                     }
                 }
                 response.headers = res.message.headers;
+                response.contents = contents;
             }
             catch (err) {
                 // Invalid resource (contents not json);  leaving result obj null
